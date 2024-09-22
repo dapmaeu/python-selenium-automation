@@ -20,3 +20,12 @@ Feature: Tests for Target Search Functionality
     |bread  |bread         |
     |tea    |tea           |
     |coffee |coffee        |
+
+
+  Scenario: Target search has product name and product image
+    Given Open target main page
+    When search for tea
+    Then Verify image is present in the search
+    And Verify name for product is present
+
+

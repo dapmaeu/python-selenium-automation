@@ -11,6 +11,9 @@ Feature: Tests for Target Cart Functionality
     Given Open target main page
     When search for pants
     And click Add to Cart button
+    And Store product name
     And confirm Add to Cart button from side navigation screen
     And open cart page
     Then verify cart has 1 item(s)
+    And Verify cart has correct product
+

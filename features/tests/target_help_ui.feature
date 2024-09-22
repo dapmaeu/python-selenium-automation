@@ -6,7 +6,5 @@ Feature: Target Help present elements
     And Verify search bar is present
     And Verify search button is present
     And Verify what would you like to do is present
-    And Verify that contact and help blocks are present
+    And Verify that contact and product recall are present
     Then Verify Browse all help pages sign is present
-
-    # Enter steps here

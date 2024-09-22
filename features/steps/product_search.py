@@ -1,7 +1,12 @@
+from lib2to3.fixes.fix_input import context
+
 from selenium.webdriver.common.by import By
 from behave import given, when, then
 from time import sleep
 
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+wait = WebDriverWait(context, 10)
 
 SEARCH_INPUT = (By.NAME, 'q')
 SEARCH_SUBMIT = (By.NAME, 'btnK')
@@ -14,16 +19,18 @@ def open_google(context):
 
 @when('Input {search_word} into search field')
 def input_search(context, search_word):
-    search = context.driver.find_element(*SEARCH_INPUT)
+    #search = context.driver.find_element(*SEARCH_INPUT)
+    wait.until(EC.element_to_be_clickable((By.NAME, 'btnK')), message='Search button not clickable').click()
     search.clear()
     search.send_keys(search_word)
-    sleep(4)
+    #sleep(4)
 
 
 @when('Click on search icon')
 def click_search_icon(context):
-    context.driver.find_element(*SEARCH_SUBMIT).click()
-    sleep(1)
+    #context.driver.find_element(*SEARCH_SUBMIT).click()
+    wait.until(EC.element_to_be_clickable(((By.NAME, 'btnK'))), message='Search button not clickable').click()
+    #sleep(1)
 
 
 @then('Product results for {search_word} are shown')

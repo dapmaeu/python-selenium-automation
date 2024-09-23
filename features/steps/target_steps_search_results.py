@@ -1,6 +1,4 @@
-from lib2to3.fixes.fix_input import context
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from behave import given, when, then
 from time import sleep
@@ -9,24 +7,18 @@ from time import sleep
 ADD_TO_CART_BTN = (By.CSS_SELECTOR, "[id*='addToCartButton']")
 ADD_TO_CART_BTN_SIDE_NAV = (By.CSS_SELECTOR, "[data-test='orderPickupButton']")
 SIDE_NAV_PRODUCT_NAME = (By.CSS_SELECTOR, "[data-test='content-wrapper'] h4")
-
-
-@then('Verify that correct search results shown')
-def verify_results(context):
-    actual_result = context.driver.find_element(By.XPATH, "//div[@data-test='resultsHeading']").text
-    expected_result = 'tea'
-    assert expected_result in actual_result, f'Expected {expected_result}, got actual {actual_result}'
-
-
-@then('Verify that correct search results shows for {product}')
-def verify_results(context, product):
-    actual_result = context.driver.find_element(By.XPATH, "//div[@data-test='resultsHeading']").text
-    assert product in actual_result, f'Expected {product}, got actual {actual_result}'
+LISTINGS = (By.CSS_SELECTOR, "[data-test='@web/site-top-of-funnel/ProductCardWrapper']")
+PRODUCT_TITLE = (By.CSS_SELECTOR, "[data-test='product-title']")
+PRODUCT_IMG = (By.CSS_SELECTOR, "img")
 
 
 @when('click Add to Cart button')
 def click_add_to_cart(context):
     context.driver.find_element(*ADD_TO_CART_BTN).click()
+    context.driver.wait.until(
+        EC.visibility_of_element_located(SIDE_NAV_PRODUCT_NAME),
+        message='Side navigation product name not visible'
+    )
 
 
 @when('Store product name')
@@ -41,12 +33,24 @@ def side_nav_click_add_to_cart(context):
     context.driver.wait.until(EC.visibility_of_element_located(SIDE_NAV_PRODUCT_NAME))
     #sleep(5)
 
-@then('Verify image is present in the search')
-def verify_image_is_present(context):
-    context.driver.find_element(By.CSS_SELECTOR, "[data-test='@web/ProductCard/ProductCardImage/primary']")
+
+@then('Verify that correct search results shows for {product}')
+def verify_results(context, product):
+    context.app.search_results_page.verify_results(product)
 
 
-@then('Verify name for product is present')
-def verify_product_name(context):
-    context.driver.find_element(By.CSS_SELECTOR, "[data-test='product-title']")
+@then('Verify that every product has a name and an image')
+def verify_products_name_img(context):
+    context.driver.execute_script("window.scrollBy(0, 5000)", "")
+    sleep(10)
+    all_products = context.driver.find_elements(*LISTINGS)
+    print(len(all_products))
+    for product in all_products:
+        #title = product.find_element(*PRODUCT_TITLE).text
+        title = context.driver.wait.until(EC.visibility_of_element_located(PRODUCT_TITLE))
+        assert title, 'Product title not found'
+        print(title.text)
+        product.find_element(*PRODUCT_IMG)
+
+
 

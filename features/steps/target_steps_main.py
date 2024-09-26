@@ -19,17 +19,18 @@ def click_cart(context):
 @when('search for {item}')
 def search_product(context, item):
     context.app.header.search_product(item)
+    sleep(5)
 
 
 @when('click Sign in')
 def click_sign_in(context):
-    context.driver.find_element(By.CSS_SELECTOR, "a[data-test='@web/AccountLink']").click()
-    context.driver.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[data-test='@web/AccountLink']")))
+    context.app.header.click_sign_in()
 
 
 @when('click on side menu sign in')
 def side_menu_click(context):
-    context.driver.find_element(By.CSS_SELECTOR, "a[data-test='accountNav-signIn']").click()
+    context.app.main_page.side_menu_sign_in()
+    sleep(5)
 
 
 @when('click on target circle button')

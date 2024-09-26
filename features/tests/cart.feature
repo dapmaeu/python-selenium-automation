@@ -7,7 +7,7 @@ Feature: Tests for Target Cart Functionality
     Then Verify that cart is empty
 
 
-  Scenario: User can add product to cart
+ Scenario: User can add product to cart
     Given Open target main page
     When search for pants
     And click Add to Cart button

@@ -18,17 +18,16 @@ def verify_cart_empty(context):
 
 
 @when('open cart page')
-def open_cart_page(context):
-    context.driver.get('https://www.target.com/cart')
+def open_cart_main(context):
+    context.app.cart_page.open_cart_main()
 
 
 @then('verify cart has {amount} item(s)')
 def verify_cart_items(context, amount):
-    cart_summary = context.driver.find_element(*CART_SUMMARY).text
-    assert f'{amount} item' in cart_summary, f"Expected {amount} items but got {cart_summary}"
+    context.app.cart_page.verify_cart_items(amount)
 
 
 @then('Verify cart has correct product')
 def verify_product_name(context):
-    actual_name = context.driver.find_element(*CART_ITEM_TITLE).text
-    assert context.product_name in actual_name, f'Expected {context.product_name} but got {actual_name}'
+    context.app.search_results_page.verify_cart_product_name()
+    sleep(10)

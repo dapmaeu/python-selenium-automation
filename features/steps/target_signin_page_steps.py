@@ -36,14 +36,34 @@ def input_email(context):
     context.app.sign_in_page.input_email_address()
 
 
+@when('input incorrect email address')
+def input_wrong_email(context):
+    context.app.sign_in_page.input_wrong_email()
+
+
 @when('input password')
 def input_password(context):
     context.app.sign_in_page.input_password()
 
 
+@when('input incorrect password')
+def input_wrong_password(context):
+    context.app.sign_in_page.input_wrong_password()
+
+
 @when('click sign in button')
 def click_sign_in_button(context):
     context.app.sign_in_page.click_sign_in_button()
+
+
+# @when('sign in with a passkey later')
+# def passkey_maybe_later(context):
+#     context.app.sign_in_page.passkey_maybe_later()
+
+
+@then('Verify user logged in')
+def verify_user_logged_in(context):
+    context.app.sign_in_page.verify_user_logged_in()
 
 
 @then('verify sign in form opened')
@@ -64,5 +84,8 @@ def close_page_and_switch(context):
     assert context.driver.current_window_handle == context.original_window, "Failed to switch back to the original window."
 
 
+@then('Verify that Please enter a valid password message is shown')
+def enter_a_valid_password(context):
+    context.app.sign_in_page.enter_a_valid_password_message()
 
 

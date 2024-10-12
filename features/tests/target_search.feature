@@ -1,6 +1,6 @@
 Feature: Tests for Target Search Functionality
 
-
+  @smoke
   Scenario: User can search for a coffee
     Given Open target main page
     When Search for coffee
@@ -22,6 +22,7 @@ Feature: Tests for Target Search Functionality
     |coffee |coffee        |
 
 
+  @smoke
   Scenario: Target search has product name and product image
     Given Open target main page
     When search for tea
